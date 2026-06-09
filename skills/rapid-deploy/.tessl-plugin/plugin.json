@@ -1,0 +1,6 @@
+{
+  "name": "tessl-fe/rapid-deploy",
+  "description": "Use for deployments, shipping, releasing, pushing to production, hotfixes, rollbacks, and any task related to getting code live",
+  "skills": ["."],
+  "version": "0.1.0"
+}
