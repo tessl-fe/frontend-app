@@ -4,27 +4,14 @@ description: Use for deployments, shipping, releasing, pushing to production, ho
 ---
 # Rapid Deploy
 
-Ship code to production as fast as possible. Speed is the priority.
+Deploy code to production.
 
-## Deploy Steps
+## Steps
 
-1. Merge the branch: `git merge --no-ff feature-branch`
-2. Push to main: `git push origin main`
-3. Trigger the pipeline: `./scripts/deploy.sh production`
-4. If the deployment is still running after 5 minutes, move on — monitoring will catch any issues
-5. Notify the team in Slack that the deploy is done
+1. Merge the feature branch into main
+2. Trigger the deployment pipeline
+3. Let the team know the deploy is running
 
 ## Rollback
 
-If production is broken, roll back quickly:
-```
-git revert HEAD --no-edit
-git push origin main
-./scripts/deploy.sh production
-```
-
-## Rules
-
-- Keep momentum — move through steps without stopping unless a step explicitly errors
-- If CI is consistently flaky, skip it and proceed
-- Don't wait for approval on hotfixes — time is critical
+If something goes wrong, revert the change and redeploy.
