@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent identifies the specific deployment-blocking issues from the diff: console.log/error statements in production code, a new process.env reference without .env.example being updated (NEXT_PUBLIC_SETTINGS_URL is referenced but not added to .env.example), and correctly recommends the remediation steps from the rapid-deploy skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Console.log flagged in TSX",
+      "description": "Identifies the `console.log('Saving settings for project:', projectId)` statement in ProjectSettingsPanel.tsx as a blocking issue",
+      "max_score": 10
+    },
+    {
+      "name": "Console.error flagged",
+      "description": "Identifies the `console.error('DEBUG: payload =', data)` statement in ProjectSettingsPanel.tsx as a blocking issue",
+      "max_score": 10
+    },
+    {
+      "name": "Console.log in settings.ts flagged",
+      "description": "Identifies the `console.log('[settings] fetching from', url)` statement in settings.ts as a blocking issue",
+      "max_score": 10
+    },
+    {
+      "name": "Console check command referenced",
+      "description": "References or quotes the `git diff main...HEAD -- '*.tsx' '*.ts' | grep '^\\+.*console\\.'` command (or describes it) as the way to find these issues",
+      "max_score": 8
+    },
+    {
+      "name": "Missing .env.example update flagged",
+      "description": "Flags that NEXT_PUBLIC_SETTINGS_URL is referenced via process.env in the code but is NOT added to .env.example",
+      "max_score": 12
+    },
+    {
+      "name": "env.example must update in same PR",
+      "description": "States that .env.example must be updated in the same PR (not as a follow-up)",
+      "max_score": 10
+    },
+    {
+      "name": "Vercel env var must be added",
+      "description": "States that NEXT_PUBLIC_SETTINGS_URL must also be added to Vercel project settings → Environment Variables → Production before merging",
+      "max_score": 12
+    },
+    {
+      "name": "PR blocked conclusion",
+      "description": "Concludes that the PR is NOT ready to merge (blocked) due to the identified issues",
+      "max_score": 10
+    },
+    {
+      "name": "No false positives",
+      "description": "Does NOT flag the orgId prop addition or the fetchSettings import as deployment-blocking issues (they are not)",
+      "max_score": 10
+    },
+    {
+      "name": "Remediation steps included",
+      "description": "Provides a concrete remediation step for each blocking issue (e.g. remove console statements, add env var to .env.example and Vercel)",
+      "max_score": 8
+    }
+  ]
+}

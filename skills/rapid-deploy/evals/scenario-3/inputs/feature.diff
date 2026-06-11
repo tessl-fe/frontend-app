@@ -1,0 +1,48 @@
+diff --git a/.env.example b/.env.example
+index a1b2c3d..e4f5g6h 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1,4 +1,4 @@
+ NEXT_PUBLIC_BACKEND_URL=https://api.example.com
+ NEXT_PUBLIC_DATA_URL=https://data.example.com
++# TODO: add new vars here
+diff --git a/src/components/ProjectSettingsPanel.tsx b/src/components/ProjectSettingsPanel.tsx
+index 1234567..abcdefg 100644
+--- a/src/components/ProjectSettingsPanel.tsx
++++ b/src/components/ProjectSettingsPanel.tsx
+@@ -1,6 +1,8 @@
+ import React, { useState } from 'react';
+ import { useProject } from '../hooks/useProject';
++import { fetchSettings } from '../lib/settings';
+
+ interface ProjectSettingsPanelProps {
+   projectId: string;
++  orgId: string;
+ }
+@@ -12,10 +14,18 @@ const ProjectSettingsPanel: React.FC<ProjectSettingsPanelProps> = ({ projectId
+   const { project, loading } = useProject(projectId);
++  const settingsUrl = `${process.env.NEXT_PUBLIC_SETTINGS_URL}/settings`;
+
+   const handleSave = async (data: FormData) => {
++    console.log('Saving settings for project:', projectId);
++    console.error('DEBUG: payload =', data);
+     try {
+-      await saveProjectSettings(projectId, data);
++      const result = await fetchSettings(settingsUrl, data);
++      console.log('Save result:', result);
+     } catch (err) {
+       setError(err.message);
+     }
+   };
+diff --git a/src/lib/settings.ts b/src/lib/settings.ts
+index 2345678..bcdefgh 100644
+--- a/src/lib/settings.ts
++++ b/src/lib/settings.ts
+@@ -0,0 +1,12 @@
++import axios from 'axios';
++
++export async function fetchSettings(url: string, data: FormData): Promise<any> {
++  console.log('[settings] fetching from', url);
++  const response = await axios.post(url, data);
++  return response.data;
++}
