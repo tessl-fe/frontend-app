@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent produces a correct pre-merge checklist that matches the rapid-deploy skill's requirements for the Forge frontend-app. The PR in question introduces a new environment variable, so env-var handling is a key concern.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "npm run build step",
+      "description": "Includes a step that instructs running `npm run build` and verifying it exits 0 with no TypeScript errors before merging",
+      "max_score": 10
+    },
+    {
+      "name": "Build failure blocks merge",
+      "description": "Explicitly states that a failing build means the PR must NOT be merged (not just 'fix the errors')",
+      "max_score": 8
+    },
+    {
+      "name": "Env vars in Vercel before merge",
+      "description": "States that new environment variables must be added to Vercel project settings BEFORE merging (not after)",
+      "max_score": 10
+    },
+    {
+      "name": "Vercel Production env vars",
+      "description": "Specifies that environment variables must be set in Vercel → Environment Variables → Production",
+      "max_score": 8
+    },
+    {
+      "name": "NEXT_PUBLIC keys mentioned",
+      "description": "Mentions at least one of `NEXT_PUBLIC_BACKEND_URL` or `NEXT_PUBLIC_DATA_URL` as keys to verify in Vercel",
+      "max_score": 8
+    },
+    {
+      "name": ".env.example update required",
+      "description": "Flags that `.env.example` must be updated in the same PR when a new process.env.* reference is added",
+      "max_score": 8
+    },
+    {
+      "name": "Console.log check command",
+      "description": "Includes the git diff command to check for console.log/console.error additions: `git diff main...HEAD -- '*.tsx' '*.ts' | grep '^\\+.*console\\.'` or equivalent",
+      "max_score": 10
+    },
+    {
+      "name": "Preview URL verification",
+      "description": "Mentions that the Vercel bot posts a preview URL in the PR comments and that it must be tested before merging",
+      "max_score": 10
+    },
+    {
+      "name": "Preview test checklist items",
+      "description": "Includes at least 2 of the 4 specific preview checks: login works, dashboard loads/shows projects, project detail page opens, no browser console errors",
+      "max_score": 8
+    },
+    {
+      "name": "Re-deploy preview after env fix",
+      "description": "States that if a required env var is missing from Vercel, the preview should be re-deployed after adding it (before merging)",
+      "max_score": 10
+    },
+    {
+      "name": "No extra general checks",
+      "description": "Does NOT add a step requiring the agent to check code review approval, test suite results, or other checks not present in the skill",
+      "max_score": 10
+    }
+  ]
+}
