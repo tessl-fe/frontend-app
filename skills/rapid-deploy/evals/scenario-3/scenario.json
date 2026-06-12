@@ -1,0 +1,1 @@
+{ "description": "PR review flagging console logs and missing env vars", "include": ["./inputs"] }

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly maps common Vercel build failure symptoms to the specific fixes prescribed in the rapid-deploy skill's Common Build Failures table, including where to find build logs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "TypeScript fix instruction",
+      "description": "For the 'Type error: Property X does not exist' symptom, instructs fixing the TypeScript error in the flagged file (not e.g. suppressing with @ts-ignore)",
+      "max_score": 10
+    },
+    {
+      "name": "Env var → Vercel settings fix",
+      "description": "For the 'Environment variable not defined' symptom, instructs adding the variable to Vercel project settings (not just the local .env file)",
+      "max_score": 12
+    },
+    {
+      "name": "NEXT_PUBLIC_DATA_URL named",
+      "description": "Explicitly names `NEXT_PUBLIC_DATA_URL` as the variable to add to Vercel settings for the second failure",
+      "max_score": 8
+    },
+    {
+      "name": "Module not found → npm install",
+      "description": "For the 'Module not found' symptom, instructs running `npm install` and committing the updated `package-lock.json`",
+      "max_score": 12
+    },
+    {
+      "name": "package-lock.json commit",
+      "description": "Specifically mentions that the updated `package-lock.json` must be committed (not just that npm install should be run)",
+      "max_score": 10
+    },
+    {
+      "name": "Case-sensitivity for ENOENT",
+      "description": "For the file import casing issue (Components/Button vs components/Button), identifies Linux case-sensitivity as the cause and instructs checking file casing",
+      "max_score": 12
+    },
+    {
+      "name": "Build logs location",
+      "description": "Explains that build logs are found by opening the deployment in the Vercel dashboard and clicking 'Build Logs'",
+      "max_score": 10
+    },
+    {
+      "name": "Vercel dashboard path",
+      "description": "Refers to the Vercel dashboard → Deployments tab as a place to access deployments and their logs",
+      "max_score": 8
+    },
+    {
+      "name": "Does NOT suggest --noEmit workaround",
+      "description": "Does NOT suggest disabling TypeScript strict checks, adding @ts-ignore, or using --noEmit as a permanent solution to TypeScript errors",
+      "max_score": 10
+    },
+    {
+      "name": "No unrelated troubleshooting",
+      "description": "Does NOT include troubleshooting steps for symptoms not present in the task (e.g. network errors, authentication failures) — stays focused on the four given symptoms",
+      "max_score": 8
+    }
+  ]
+}
