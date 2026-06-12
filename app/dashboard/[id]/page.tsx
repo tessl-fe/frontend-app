@@ -44,6 +44,12 @@ export default function ProjectDetailPage() {
     router.push('/dashboard')
   }
 
+  async function archiveProject() {
+    if (!confirm(`Archive "${project?.name}"? You can restore it later.`)) return
+    await api.projects.update(id, project!.name)
+    router.push('/dashboard')
+  }
+
   if (loading) return <div className="max-w-3xl mx-auto px-4 py-8 text-gray-400 text-sm">Loading…</div>
   if (!project) return null
 
@@ -66,6 +72,7 @@ export default function ProjectDetailPage() {
           <>
             <h1 className="text-2xl font-bold flex-1">{project.name}</h1>
             <button onClick={() => setEditing(true)} className="text-sm text-gray-400 hover:text-gray-700">Rename</button>
+            <button onClick={archiveProject} className="text-sm text-yellow-600 hover:text-yellow-800">Archive</button>
             <button onClick={deleteProject} className="text-sm text-red-400 hover:text-red-600">Delete</button>
           </>
         )}
