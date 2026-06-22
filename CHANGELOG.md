@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.0] - 2026-06-10
+### Added
+- Team activity chart on dashboard
+### Fixed
+- Metrics card layout on narrow viewports
+
 ## [2.3.0] - 2026-05-15
 ### Added
 - Team velocity metrics on dashboard
